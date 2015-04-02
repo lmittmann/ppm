@@ -1,47 +1,28 @@
-# pnm #
-
-pnm is a simple Go-library for writing one-dimensional arrays to binary Portable Anymap files, such as:
-
-- Portable Bitmap (.pbm)
-- Portable Graymap (.pgm)
-- Portable Pixmap (.ppm)
-
-## Installation ##
-```
-go get github.com/lmittmann/pnm
-```
-
-## Usage ##
-
+# Package ppm
 ```go
-import "github.com/lmittmann/pnm"
+import "github.com/lmittmann/ppm"
 ```
+Package ppm implements a Portable Pixel Map (PPM) image decoder and encoder.
 
-## Example ##
+The PPM specification is at http://netpbm.sourceforge.net/doc/ppm.html.
 
+
+## func [Decode](reader.go#L27)
 ```go
-package main
-
-import (
-	"github.com/lmittmann/pnm"
-	"math"
-)
-
-func main() {
-	width, height := 256, 256
-	pixel := make([]uint8, width*height*3)
-
-	for y := 0; y < height; y++ {
-		for x := 0; x < width; x++ {
-			i := (y*width + x) * 3 // position of pixel at x, y in array
-			pixel[i] = 255                                                                // red
-			pixel[i+1] = uint8(math.Sin(float64(x)/16)*math.Sin(float64(y)/16)*128 + 128) // green
-			pixel[i+2] = 0                                                                // blue
-		}
-	}
-	err := pnm.WritePixelmap("test.ppm", &pixel, width, height)
-	if err != nil {
-		panic(err)
-	}
-}
+func Decode(r io.Reader) (image.Image, error)
 ```
+Decode reads a PPM image from Reader r and returns it as an image.Image.
+
+
+## func [DecodeConfig](reader.go#L38)
+```go
+func DecodeConfig(r io.Reader) (image.Config, error)
+```
+DecodeConfig returns the color model and dimensions of a PPM image without decoding the entire image.
+
+
+## func [Encode](writer.go#L18)
+```go
+func Encode(w io.Writer, img image.Image) error
+```
+Encode writes the Image img to Writer w in PPM format.
