@@ -1,15 +1,12 @@
-// Package ppm implements a Portable Pixel Map (PPM) image decoder and encoder.
-//
-// The PPM specification is at http://netpbm.sourceforge.net/doc/ppm.html.
 package ppm
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"image"
 	"image/color"
 	"io"
-	"bufio"
 )
 
 var errUnsupportedColorMode = errors.New("ppm: color mode not supported")
@@ -17,7 +14,7 @@ var errUnsupportedColorMode = errors.New("ppm: color mode not supported")
 // Encode writes the Image img to Writer w in PPM format.
 func Encode(w io.Writer, img image.Image) error {
 	bw := bufio.NewWriter(w)
-	
+
 	switch img.ColorModel() {
 	case color.RGBAModel:
 		rec := img.Bounds()
