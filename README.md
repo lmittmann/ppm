@@ -1,4 +1,4 @@
-# Package ppm
+# Package ppm [![GoDoc](https://godoc.org/github.com/lmittmann/ppm?status.svg)](https://godoc.org/github.com/lmittmann/ppm)
 ```go
 import "github.com/lmittmann/ppm"
 ```
