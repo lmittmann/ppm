@@ -21,7 +21,7 @@ func DecodeConfig(r io.Reader) (image.Config, error)
 DecodeConfig returns the color model and dimensions of a PPM image without decoding the entire image.
 
 
-## func [Encode](writer.go#L18)
+## func [Encode](writer.go#L15)
 ```go
 func Encode(w io.Writer, img image.Image) error
 ```
