@@ -78,7 +78,7 @@ func (d *decoder) decode(r io.Reader, configOnly bool) (image.Image, error) {
 
 	for y := 0; y < d.height; y++ {
 		for x := 0; x < d.width; x++ {
-			_, err = d.br.Read(pixel)
+			_, err = io.ReadFull(d.br, pixel)
 			if err != nil {
 				return nil, errNotEnough
 			}
