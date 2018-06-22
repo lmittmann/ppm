@@ -28,9 +28,8 @@ func Decode(r io.Reader) (image.Image, error) {
 	var d decoder
 	if img, err := d.decode(r, false); err != nil {
 		return nil, err
-	} else {
-		return img, nil
 	}
+	return img, nil
 }
 
 // DecodeConfig returns the color model and dimensions of a PPM image without
