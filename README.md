@@ -1,4 +1,6 @@
-# Package ppm [![GoDoc](https://godoc.org/github.com/lmittmann/ppm?status.svg)](https://godoc.org/github.com/lmittmann/ppm)
+# Package ppm [![GoDoc](https://godoc.org/github.com/lmittmann/ppm?status.svg)](https://godoc.org/github.com/lmittmann/ppm) [![Go Report Card](https://goreportcard.com/badge/github.com/lmittmann/ppm)](https://goreportcard.com/report/github.com/lmittmann/ppm)
+
+
 ```go
 import "github.com/lmittmann/ppm"
 ```
@@ -14,7 +16,7 @@ func Decode(r io.Reader) (image.Image, error)
 Decode reads a PPM image from Reader r and returns it as an image.Image.
 
 
-## func [DecodeConfig](reader.go#L38)
+## func [DecodeConfig](reader.go#L37)
 ```go
 func DecodeConfig(r io.Reader) (image.Config, error)
 ```
