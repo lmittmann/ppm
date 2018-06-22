@@ -26,7 +26,8 @@ func init() {
 // Decode reads a PPM image from Reader r and returns it as an image.Image.
 func Decode(r io.Reader) (image.Image, error) {
 	var d decoder
-	if img, err := d.decode(r, false); err != nil {
+	img, err := d.decode(r, false)
+	if err != nil {
 		return nil, err
 	}
 	return img, nil
