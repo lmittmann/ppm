@@ -16,7 +16,7 @@ func Decode(r io.Reader) (image.Image, error)
 Decode reads a PPM image from Reader r and returns it as an image.Image.
 
 
-## func [DecodeConfig](reader.go#L37)
+## func [DecodeConfig](reader.go#L38)
 ```go
 func DecodeConfig(r io.Reader) (image.Config, error)
 ```
