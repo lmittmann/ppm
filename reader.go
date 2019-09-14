@@ -1,4 +1,5 @@
-// Package ppm implements a Portable Pixel Map (PPM) image decoder and encoder.
+// Package ppm implements a Portable Pixel Map (PPM) image decoder and encoder. The supported image
+// color model is color.RGBAModel.
 //
 // The PPM specification is at http://netpbm.sourceforge.net/doc/ppm.html.
 package ppm
