@@ -1,11 +1,12 @@
 package ppm
 
 import (
+  "image/color"
   "os"
   "testing"
 )
 
-func TestDecodeP6(t *testing.T) {
+func TestDecode(t *testing.T) {
   file, err := os.Open("./test/p6.ppm")
 
   if err != nil {
@@ -61,4 +62,29 @@ func TestDecodeP3(t *testing.T) {
     t.Error("Bad header error expected decoding p3", err)
   }
 
+}
+
+func TestDecodeConfig(t *testing.T) {
+  file, err := os.Open("./test/p6.ppm")
+
+  if err != nil {
+    t.Error("Error opening p6 ppm file", err)
+  }
+
+  config, err := DecodeConfig(file)
+
+  if err != nil {
+    t.Error("Error decoding config", err)
+  }
+
+  if config.ColorModel != color.RGBAModel {
+    t.Error("Decoded color model incorrectly")
+  }
+
+  if config.Width != 3 {
+    t.Error("Decoded width incorrectly")
+  }
+  if config.Height != 2 {
+    t.Error("Decoded height incorrectly")
+  }
 }
