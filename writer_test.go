@@ -7,34 +7,37 @@ import (
 	"testing"
 )
 
-func createImage(data []uint16) image.Image {
+func createImage(colors []color.RGBA64) image.Image {
 	img := image.NewRGBA(image.Rect(0, 0, 3, 2))
 
-	for i := 0; i < len(data); i += 5 {
-		imageColor := color.RGBA64{
-			data[i+2],
-			data[i+3],
-			data[i+4],
-			0xffff,
-		}
-		img.Set(int(data[i]), int(data[i+1]), imageColor)
+	pixels := map[image.Point]color.RGBA64{
+		image.Pt(0, 0): colors[0],
+		image.Pt(1, 0): colors[1],
+		image.Pt(2, 0): colors[2],
+		image.Pt(0, 1): colors[3],
+		image.Pt(1, 1): colors[4],
+		image.Pt(2, 1): colors[5],
+	}
+
+	for point, col := range pixels {
+		img.Set(point.X, point.Y, col)
 	}
 
 	return img
 }
 
 func TestEncode(t *testing.T) {
-	pixelData := []uint16{
-		0, 0, 0xffff, 0, 0,
-		1, 0, 0, 0xffff, 0,
-		2, 0, 0, 0, 0xffff,
-		0, 1, 0xffff, 0xffff, 0,
-		1, 1, 0xffff, 0xffff, 0xffff,
-		2, 1, 0, 0, 0,
+	colors := []color.RGBA64{
+		color.RGBA64{0xffff, 0, 0, 0xffff},
+		color.RGBA64{0, 0xffff, 0, 0xffff},
+		color.RGBA64{0, 0, 0xffff, 0xffff},
+		color.RGBA64{0xffff, 0xffff, 0, 0xffff},
+		color.RGBA64{0xffff, 0xffff, 0xffff, 0xffff},
+		color.RGBA64{0, 0, 0, 0xffff},
 	}
 
 	var w bytes.Buffer
-	img := createImage(pixelData)
+	img := createImage(colors)
 	err := Encode(&w, img)
 
 	if err != nil {
@@ -52,15 +55,12 @@ func TestEncode(t *testing.T) {
 		i++
 	}
 
-	for j := 0; j < len(pixelData); j += 5 {
-		r := byte(pixelData[j+2])
-		g := byte(pixelData[j+3])
-		b := byte(pixelData[j+4])
-
-		if wBytes[i] != r || wBytes[i+1] != g || wBytes[i+2] != b {
+	for _, col := range colors {
+		if wBytes[i] != byte(col.R) || wBytes[i+1] != byte(col.G) || wBytes[i+2] != byte(col.B) {
 			t.Error("Error encoding body")
 			t.FailNow()
 		}
+
 		i += 3
 	}
 }

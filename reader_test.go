@@ -1,6 +1,7 @@
 package ppm
 
 import (
+  "image"
   "image/color"
   "os"
   "testing"
@@ -29,21 +30,19 @@ func TestDecode(t *testing.T) {
     t.Error("Decoded incorrect height")
   }
 
-  pixelData := []uint32{
-    0, 0, 0xffff, 0, 0,
-    1, 0, 0, 0xffff, 0,
-    2, 0, 0, 0, 0xffff,
-    0, 1, 0xffff, 0xffff, 0,
-    1, 1, 0xffff, 0xffff, 0xffff,
-    2, 1, 0, 0, 0,
+  pixels := map[image.Point]color.RGBA64{
+    image.Pt(0, 0): color.RGBA64{0xffff, 0, 0, 0xffff},
+    image.Pt(1, 0): color.RGBA64{0, 0xffff, 0, 0xffff},
+    image.Pt(2, 0): color.RGBA64{0, 0, 0xffff, 0xffff},
+    image.Pt(0, 1): color.RGBA64{0xffff, 0xffff, 0, 0xffff},
+    image.Pt(1, 1): color.RGBA64{0xffff, 0xffff, 0xffff, 0xffff},
+    image.Pt(2, 1): color.RGBA64{0, 0, 0, 0xffff},
   }
 
-  for i := 0; i < len(pixelData); i += 5 {
-    x := int(pixelData[i])
-    y := int(pixelData[i+1])
-    r, g, b, a := img.At(x, y).RGBA()
+  for point, col := range pixels {
+    r, g, b, a := img.At(point.X, point.Y).RGBA()
 
-    if r != pixelData[i+2] || g != pixelData[i+3] || b != pixelData[i+4] || a != 0xffff {
+    if uint16(r) != col.R || uint16(g) != col.G || uint16(b) != col.B || uint16(a) != col.A {
       t.Error("Decoded incorrect pixel values")
     }
   }
