@@ -51,6 +51,7 @@ func TestEncode(t *testing.T) {
 	for _, byte := range header {
 		if wBytes[i] != byte {
 			t.Error("Error encoding header")
+			t.FailNow()
 		}
 		i++
 	}

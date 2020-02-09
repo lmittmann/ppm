@@ -44,6 +44,7 @@ func TestDecode(t *testing.T) {
 
     if uint16(r) != col.R || uint16(g) != col.G || uint16(b) != col.B || uint16(a) != col.A {
       t.Error("Decoded incorrect pixel values")
+      t.FailNow()
     }
   }
 }
