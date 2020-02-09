@@ -5,11 +5,11 @@ import (
   "testing"
 )
 
-func TestDecode(t *testing.T) {
+func TestDecodeP6(t *testing.T) {
   file, err := os.Open("./test/p6.ppm")
 
   if err != nil {
-    t.Error("Error opening ppm file", err)
+    t.Error("Error opening p6 ppm file", err)
   }
 
   img, err := Decode(file)
@@ -46,4 +46,19 @@ func TestDecode(t *testing.T) {
       t.Error("Decoded incorrect pixel values")
     }
   }
+}
+
+func TestDecodeP3(t *testing.T) {
+  file, err := os.Open("./test/p3.ppm")
+
+  if err != nil {
+    t.Error("Error opening p3 ppm file", err)
+  }
+
+  _, err = Decode(file)
+
+  if err != errBadHeader || err == nil {
+    t.Error("Bad header error expected decoding p3", err)
+  }
+
 }
