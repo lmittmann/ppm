@@ -1,4 +1,4 @@
-# Package ppm [![GoDoc](https://pkg.go.dev/github.com/lmittmann/ppm?status.svg)](https://pkg.go.dev/github.com/lmittmann/ppm) [![Go Report Card](https://goreportcard.com/badge/github.com/lmittmann/ppm)](https://goreportcard.com/report/github.com/lmittmann/ppm)
+# Package ppm [![GoDoc](https://godoc.org/github.com/lmittmann/ppm?status.svg)](https://pkg.go.dev/github.com/lmittmann/ppm) [![Go Report Card](https://goreportcard.com/badge/github.com/lmittmann/ppm)](https://goreportcard.com/report/github.com/lmittmann/ppm)
 
 
 ```
