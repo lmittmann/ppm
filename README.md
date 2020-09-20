@@ -1,4 +1,4 @@
-# Package ppm [![GoDoc](https://godoc.org/github.com/lmittmann/ppm?status.svg)](https://pkg.go.dev/github.com/lmittmann/ppm) [![Go Report Card](https://goreportcard.com/badge/github.com/lmittmann/ppm)](https://goreportcard.com/report/github.com/lmittmann/ppm)
+# Package ppm [![PkgGoDev](https://pkg.go.dev/badge/github.com/lmittmann/ppm)](https://pkg.go.dev/github.com/lmittmann/ppm) [![Go Report Card](https://goreportcard.com/badge/github.com/lmittmann/ppm)](https://goreportcard.com/report/github.com/lmittmann/ppm)
 
 
 ```
@@ -9,14 +9,14 @@ Package ppm implements a Portable Pixel Map (PPM) image decoder and encoder. The
 The PPM specification is at http://netpbm.sourceforge.net/doc/ppm.html.
 
 
-## func [Decode](reader.go#L27)
+## func [Decode](reader.go#L28)
 <pre>
 func Decode(r <a href="https://pkg.go.dev/io">io</a>.<a href="https://pkg.go.dev/io#Reader">Reader</a>) (<a href="https://pkg.go.dev/image">image</a>.<a href="https://pkg.go.dev/image#Image">Image</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)
 </pre>
 Decode reads a PPM image from Reader r and returns it as an image.Image.
 
 
-## func [DecodeConfig](reader.go#L38)
+## func [DecodeConfig](reader.go#L39)
 <pre>
 func DecodeConfig(r <a href="https://pkg.go.dev/io">io</a>.<a href="https://pkg.go.dev/io#Reader">Reader</a>) (<a href="https://pkg.go.dev/image">image</a>.<a href="https://pkg.go.dev/image#Config">Config</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)
 </pre>
