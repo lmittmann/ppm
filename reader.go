@@ -17,7 +17,7 @@ import (
 var (
 	errBadHeader   = errors.New("ppm: invalid header")
 	errNotEnough   = errors.New("ppm: not enough image data")
-	errUnsupported = errors.New("ppm: unsupported format (maxVal != 255)")
+	errUnsupported = errors.New("ppm: unsupported format (maxVal > 255)")
 )
 
 func init() {
@@ -73,20 +73,29 @@ func (d *decoder) decode(r io.Reader, configOnly bool) (image.Image, error) {
 	}
 
 	// decode image
-	pixel := make([]byte, 3)
+	pixelUnscaled := make([]byte, 3)
 
 	img := image.NewRGBA(image.Rect(0, 0, d.width, d.height))
 
 	for y := 0; y < d.height; y++ {
 		for x := 0; x < d.width; x++ {
-			_, err = io.ReadFull(d.br, pixel)
+			_, err = io.ReadFull(d.br, pixelUnscaled)
 			if err != nil {
 				return nil, errNotEnough
 			}
+			pixel := scalePixel(d.maxVal, pixelUnscaled)
 			img.SetRGBA(x, y, color.RGBA{pixel[0], pixel[1], pixel[2], 0xff})
 		}
 	}
 	return img, nil
+}
+
+func scalePixel(maxVal int, p []byte) []byte {
+	res := make([]byte, len(p))
+	for i := range p {
+		res[i] = byte(float32(p[i]) / float32(maxVal) * 255.0)
+	}
+	return res
 }
 
 func (d *decoder) decodeHeader() error {
@@ -126,7 +135,7 @@ func (d *decoder) decodeHeader() error {
 	d.maxVal, err = strconv.Atoi(string(headerFields[3]))
 	if err != nil {
 		return errBadHeader
-	} else if d.maxVal != 255 {
+	} else if d.maxVal > 255 {
 		return errUnsupported
 	}
 	return nil
