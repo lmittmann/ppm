@@ -17,7 +17,7 @@ import (
 var (
 	errBadHeader   = errors.New("ppm: invalid header")
 	errNotEnough   = errors.New("ppm: not enough image data")
-	errUnsupported = errors.New("ppm: unsupported format (maxVal > 255)")
+	errUnsupported = errors.New("ppm: unsupported format (maxVal > 255 or maxval <= 0)")
 )
 
 func init() {
@@ -135,7 +135,7 @@ func (d *decoder) decodeHeader() error {
 	d.maxVal, err = strconv.Atoi(string(headerFields[3]))
 	if err != nil {
 		return errBadHeader
-	} else if d.maxVal > 255 {
+	} else if d.maxVal > 255 || d.maxVal <= 0 {
 		return errUnsupported
 	}
 	return nil
