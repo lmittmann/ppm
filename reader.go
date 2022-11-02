@@ -1,5 +1,5 @@
 // Package ppm implements a Portable Pixel Map (PPM) image decoder and encoder. The supported image
-// color model is color.RGBAModel.
+// color model is [color.RGBAModel].
 //
 // The PPM specification is at http://netpbm.sourceforge.net/doc/ppm.html.
 package ppm
@@ -73,18 +73,19 @@ func (d *decoder) decode(r io.Reader, configOnly bool) (image.Image, error) {
 	}
 
 	// decode image
-	pixel := make([]byte, 3)
+	pixel := make([]byte, 4)
+	pixel[3] = 0xff
 
 	img := image.NewRGBA(image.Rect(0, 0, d.width, d.height))
 
-	for y := 0; y < d.height; y++ {
-		for x := 0; x < d.width; x++ {
-			_, err = io.ReadFull(d.br, pixel)
-			if err != nil {
-				return nil, errNotEnough
-			}
-			img.SetRGBA(x, y, color.RGBA{pixel[0], pixel[1], pixel[2], 0xff})
+	n := d.height * d.width
+	for i := 0; i < n; i++ {
+		_, err = io.ReadFull(d.br, pixel[:3])
+		if err != nil {
+			return nil, errNotEnough
 		}
+
+		copy(img.Pix[4*i:4*i+4], pixel)
 	}
 	return img, nil
 }

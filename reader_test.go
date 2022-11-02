@@ -8,6 +8,7 @@ import (
 	"image/color"
 	"io"
 	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/lmittmann/ppm"
@@ -142,4 +143,28 @@ func equal(imgA, imgB image.Image) error {
 		}
 	}
 	return nil
+}
+
+func BenchmarkDecode(b *testing.B) {
+	benchmarks := []struct {
+		Enc []byte
+	}{
+		{[]byte("P6\n1 1\n255\n\x00\x00\x00")},
+		{[]byte("P6\n10 10\n255\n" + strings.Repeat("\x00\x00\x00", 10*10))},
+		{[]byte("P6\n100 100\n255\n" + strings.Repeat("\x00\x00\x00", 100*100))},
+		{[]byte("P6\n1000 1000\n255\n" + strings.Repeat("\x00\x00\x00", 1000*1000))},
+	}
+
+	for i, bm := range benchmarks {
+		b.Run(strconv.Itoa(i), func(b *testing.B) {
+			b.ReportAllocs()
+
+			buf := bytes.NewBuffer(nil)
+			for i := 0; i < b.N; i++ {
+				buf.Write(bm.Enc)
+				ppm.Decode(buf)
+				buf.Reset()
+			}
+		})
+	}
 }
