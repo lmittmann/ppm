@@ -99,7 +99,7 @@ func (d *decoder) decodeHeader() error {
 	for fields := 0; fields < 4; {
 		b, err = d.br.ReadByte()
 		if err != nil {
-		        return errBadHeader
+			return errBadHeader
 		}
 		if b == '#' {
 			comment = true
