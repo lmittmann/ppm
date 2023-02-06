@@ -104,6 +104,10 @@ func TestDecodeConfig(t *testing.T) {
 			WantConfig: image.Config{ColorModel: color.RGBAModel, Width: 1, Height: 1},
 		},
 		{
+			Enc:     bytes.NewBufferString(""),
+			WantErr: errors.New("ppm: invalid header"),
+		},
+		{
 			Enc:     bytes.NewBufferString("P7\n1 1\n255\n"),
 			WantErr: errors.New("ppm: invalid header"),
 		},
